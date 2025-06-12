@@ -345,10 +345,26 @@ Tests run on:
 ## 📋 Future Improvements
 
 - Add visual regression testing
-- Expand test coverage to search functionality
+- Expand test coverage to search functionality (when access to the base app is granted)
 - Add performance testing metrics
 - Add API testing for backend services
 - Implement data-driven test scenarios
+
+### Why I would suggest switching to Playwright?
+
+Playwright offers several advantages over Cypress, making it a compelling choice for end-to-end and component testing:
+
+- **Free Parallelization and Test Sharding**: Playwright allows you to run tests in parallel and shard them across multiple workers without additional cost.
+- **No Cross-Origin Issues**: Playwright eliminates the need for workarounds to handle cross-origin problems, simplifying test implementation.
+- **No Need to Launch a Browser for API Tests**: API tests can be executed without launching a browser, saving resources and improving speed.
+- **Async/Await Syntax**: Playwright's async/await-based syntax ensures clean, readable code without unnecessary nesting or callback hell.
+- **Built-in Trace Viewer**: Playwright provides a built-in trace viewer for debugging, allowing you to inspect test execution step-by-step with screenshots, network requests, and console logs.
+- **Browser Context Isolation**: Playwright enables isolated browser contexts, allowing parallel execution of tests without interference.
+- **First-class Mobile Emulation**: Playwright supports robust mobile emulation, including geolocation, permissions, and device-specific settings.
+- **Faster Execution**: Playwright is optimized for speed, often executing tests faster than other frameworks due to its modern architecture.
+- **More Modular Approach**: Playwright's structure is more modular, allowing for better organization and scalability.
+- **Less Opinionated Framework**: Playwright provides more freedom to structure tests and workflows according to your needs.
+- **Better IDE Integration**: Playwright offers enhanced IDE integration, improving the developer experience.
 
 ## 📜 License
 
