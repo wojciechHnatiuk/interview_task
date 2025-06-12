@@ -1,6 +1,12 @@
 # Google Web Interface Test Suite
 
+### Disclaimer
+
 This project demonstrates an automated testing solution for Google's web interfaces using Cypress. It was created as part of a job interview task to showcase test automation skills and best practices.
+
+In a real-world scenario where access to the application's code is available, I would definitely add `data-testid` attributes to elements. These attributes provide a reliable and maintainable way to select elements during testing, ensuring that tests are less prone to breaking due to changes in the UI structure or styling. Element selection would primarily be done using these `data-testid` selectors to enhance test stability and readability.
+
+⚠️ **Important Note**: This test suite focuses on UI navigation and element verification. Automated search testing is intentionally excluded as it would violate Google's Terms of Service, which prohibits automated queries to their search engine.
 
 ## 🧪 Test Plan & Approach
 
@@ -10,13 +16,9 @@ This project uses a hybrid approach combining:
 
 - **Page Object Model (POM)** - Encapsulates page elements and interactions into reusable classes
 - **App Actions Pattern** - Implements high-level custom utilities and shorthands as cy chainable methods
-- **Cross-browser & Cross-viewport Testing** - Tests run across different screen sizes
+- **Cross-browser & Cross-viewport Testing** - Tests run across different screen sizes and browsers
 - **Multi-language Support** - Tests verify the application across multiple languages
 - **Abstract Base Class** - Provides core functionality for all page objects
-
-### Testing Limitations
-
-⚠️ **Important Note**: This test suite focuses on UI navigation and element verification. Automated search testing is intentionally excluded as it would violate Google's Terms of Service, which prohibits automated queries to their search engine.
 
 ### What's Being Tested
 
