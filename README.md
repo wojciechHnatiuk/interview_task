@@ -183,7 +183,39 @@ cy.findScrollableParent()
 
 ### 6. Continuous Integration Ready
 
-Includes GitHub Actions workflow configuration for CI/CD integration.
+The project includes a GitHub Actions workflow for continuous integration that:
+
+- Automatically runs tests on pushes to main/master branches and pull requests
+- Supports manual triggering via workflow_dispatch
+- Uses efficient caching strategies to optimize build times
+
+```yaml
+# Advanced caching strategy for dependencies
+- name: Cache node_modules
+  uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: macOS-node-${{ hashFiles('package-lock.json') }}
+    restore-keys: |
+      macOS-node-
+
+- name: Cache Cypress binary
+  uses: actions/cache@v3
+  with:
+    path: ~/.cache/Cypress
+    key: macOS-cypress-${{ hashFiles('package-lock.json') }}
+    restore-keys: |
+      macOS-cypress-
+```
+
+The workflow is optimized to:
+
+- Cache npm dependencies based on package-lock.json hash (only reinstalls when dependencies change)
+- Separately cache the large Cypress binary (~1GB) to avoid repeated downloads
+- Run tests on specific self-hosted runners for consistent environments
+- Preserve screenshots and videos from failed test runs as artifacts
+
+These optimizations significantly reduce CI execution time and resource usage by avoiding unnecessary dependency reinstallation across workflow runs.
 
 ### 7. Global Scope Management
 
