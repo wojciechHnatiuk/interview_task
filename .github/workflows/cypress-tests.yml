@@ -37,11 +37,13 @@ jobs:
               echo "Firefox is already installed."
             fi
           elif [[ "${{ matrix.browser }}" == "chrome" ]]; then
-            if ! brew list --cask google-chrome &>/dev/null; then
+            if [[ -d "/Applications/Google Chrome.app" ]]; then
+              echo "Chrome is already installed at /Applications/Google Chrome.app. Skipping installation."
+            elif ! brew list --cask google-chrome &>/dev/null; then
               echo "Chrome not found. Installing..."
               brew install --cask google-chrome
             else
-              echo "Chrome is already installed."
+              echo "Chrome is already installed via Homebrew. Skipping installation."
             fi
           fi
 
