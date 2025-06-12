@@ -49,19 +49,19 @@ describe('Google Home Page Tests', () => {
 			GoogleHomePage.openGmail()
 			GmailHomePage.assertGmailNavigation()
 		})
+
+		it('should toggle the Google Apps menu and verify that it is displayed along with all of its elements, then toggle it off and confirm that it is no longer visible', () => {
+			GoogleHomePage.openGoogleAppsMenu().assertGoogleAppsMenuIsVisible()
+
+			// close the menu by clicking outside of it
+			cy.wait(200).get('body').click(50, 50)
+
+			GoogleHomePage.getGoogleAppsToggle().should(
+				'have.attr',
+				'aria-expanded',
+				'false'
+			)
+			GoogleHomePage.getGoogleAppsMenu().should('not.be.visible')
+		})
 	}
-
-	it('should toggle the Google Apps menu and verify that it is displayed along with all of its elements, then toggle it off and confirm that it is no longer visible', () => {
-		GoogleHomePage.openGoogleAppsMenu().assertGoogleAppsMenuIsVisible()
-
-		// close the menu by clicking outside of it
-		cy.wait(200).get('body').click(50, 50)
-
-		GoogleHomePage.getGoogleAppsToggle().should(
-			'have.attr',
-			'aria-expanded',
-			'false'
-		)
-		GoogleHomePage.getGoogleAppsMenu().should('not.be.visible')
-	})
 })
