@@ -26,31 +26,28 @@ The test suite verifies the following Google web interfaces and functionality:
 
 1. **Google Homepage**
 
-   - Initial load elements visibility
-   - Cookie consent modal behavior
-   - Language-specific content
-   - Country-specific content based on IP
-   - SVG icons visibility
+   - Initial load elements visibility across multiple viewports (desktop, tablet, mobile) and languages.
+   - Cookie consent modal behavior, including visibility and dismissal.
+   - Auto-complete suggestions when typing in the search input.
+   - Recaptcha bot prevention triggered during suspected bot activity.
 
 2. **Google Apps Menu**
 
-   - Menu toggle functionality
-   - Visibility of app items
-   - Proper menu dismissal
+   - Menu toggle functionality and visibility of all app items.
+   - Proper menu dismissal when clicking outside the menu.
 
 3. **Navigation**
 
-   - Gmail navigation link functionality
-   - Google Images navigation link functionality
+   - Gmail navigation link functionality (skipped for Firefox due to cross-origin issues).
+   - Google Images navigation link functionality, including intercepting and asserting network requests.
 
 4. **Responsive Design**
 
-   - Tests run across multiple viewports (desktop, tablet, mobile)
-   - Ensures UI components adapt properly to different screen sizes
+   - Tests run across multiple device sizes (desktop, tablet, mobile) to ensure UI components adapt properly to different screen sizes.
 
 5. **Internationalization**
-   - Tests run in multiple languages (English, Polish)
-   - Verifies translated elements display correctly
+
+   - Tests run in multiple languages (e.g., English, Polish) to verify translated elements display correctly and language-specific behaviors are handled properly.
 
 ## 📂 Project Structure
 
@@ -254,10 +251,33 @@ This pattern could be further expanded to include:
 
 - Performance measurement methods
 - Logging and reporting capabilities
-- Global test hooks
-- Environment-specific configurations
+- More navigation tests (...to google apps)
+- Global test hooks (...for slack integration without the need of cypress cloud)
+- Environment-specific configurations (...multiple configuration files for specific environments)
+- Cron scheduled nightly test runs for multiple environments
 
 This approach keeps the Page Objects focused on their core responsibility (page interactions) while global concerns are managed at the appropriate level.
+
+## 🚀 Performance Considerations
+
+To ensure the application performs optimally, the tests are configured with performance in mind:
+
+- **Short Timeouts**: Assertions and page load timeouts are set to very short durations to quickly identify performance issues. This approach ensures that the application responds promptly and meets user expectations.
+
+- **Why This Works for Google**: Google services are known for their speed and reliability. Setting short timeouts is practical and won't lead to flaky tests. Any timeout failures would likely indicate real performance issues rather than test instability.
+
+### Example Configuration
+
+In the Cypress configuration or test setup, timeouts are reduced:
+
+```javascript
+Cypress.config({
+  defaultCommandTimeout: 2000, // 2 seconds for commands like `.should()`
+  pageLoadTimeout: 5000,      // 5 seconds for page loads
+});
+```
+
+This configuration ensures that the tests not only validate functionality but also provide insights into the application's responsiveness.
 
 ## 🛠️ ESLint Configuration
 
