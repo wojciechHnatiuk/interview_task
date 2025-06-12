@@ -1,7 +1,6 @@
 {
   "name": "interview_cy",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
