@@ -107,10 +107,7 @@ acceptCookiesIfPresent(language?: Language): this {
 This approach allows for expressive, readable test scenarios:
 
 ```typescript
-GoogleHomePage.visit()
-	.acceptCookiesIfPresent()
-	.openGoogleAppsMenu()
-	.assertGoogleAppsMenuIsVisible()
+GoogleHomePage.visit().acceptCookiesIfPresent().openGoogleAppsMenu().assertGoogleAppsMenuIsVisible()
 ```
 
 ### 2. Abstract Base Page
@@ -119,16 +116,12 @@ An abstract `BasePage` class provides a foundation for all page objects with sha
 
 ```typescript
 export abstract class BasePage {
-	protected abstract urlTemplate: string
+  protected abstract urlTemplate: string
 
-	protected getBaseUrl(
-		language?: AppLanguage,
-		overrideLangCode?: string
-	): string {
-		const langCode =
-			overrideLangCode ?? languageCodeMap[language ?? DEFAULT_LANGUAGE]
-		return this.urlTemplate.replace('{langCode}', langCode)
-	}
+  protected getBaseUrl(language?: AppLanguage, overrideLangCode?: string): string {
+    const langCode = overrideLangCode ?? languageCodeMap[language ?? DEFAULT_LANGUAGE]
+    return this.urlTemplate.replace('{langCode}', langCode)
+  }
 }
 ```
 
@@ -150,11 +143,11 @@ The abstract base class could be further expanded in the future to include more 
 The test suite handles translations dynamically, allowing tests to run in multiple languages:
 
 ```typescript
-LANGUAGES_TO_TEST.forEach((language) => {
-	it(`should check elements in ${language}`, () => {
-		GoogleHomePage.visit(language)
-		// Test assertions with localized strings
-	})
+LANGUAGES_TO_TEST.forEach(language => {
+  it(`should check elements in ${language}`, () => {
+    GoogleHomePage.visit(language)
+    // Test assertions with localized strings
+  })
 })
 ```
 
@@ -164,10 +157,10 @@ Tests run across multiple device sizes to ensure responsive design:
 
 ```typescript
 VIEWPORTS.forEach(({ name, width, height }) => {
-	it(`should check visibility on ${name} viewport`, () => {
-		cy.viewport(width, height)
-		// Test assertions for this viewport
-	})
+  it(`should check visibility on ${name} viewport`, () => {
+    cy.viewport(width, height)
+    // Test assertions for this viewport
+  })
 })
 ```
 
@@ -251,7 +244,7 @@ The architecture separates concerns by placing cross-cutting functionality in th
 import './commands'
 
 Cypress.on('uncaught:exception', () => {
-	return false
+  return false
 })
 ```
 
@@ -263,6 +256,53 @@ This pattern could be further expanded to include:
 - Environment-specific configurations
 
 This approach keeps the Page Objects focused on their core responsibility (page interactions) while global concerns are managed at the appropriate level.
+
+## 🛠️ ESLint Configuration
+
+This project uses a custom ESLint configuration to enforce code quality and consistency. The configuration is defined in the `eslint.config.js` file and includes:
+
+- **TypeScript Support**: Provides linting for TypeScript files.
+- **Prettier Integration**: Automatically formats code to maintain a consistent style.
+
+### Running ESLint
+
+To check for linting errors, run:
+
+```bash
+npm run lint
+```
+
+To automatically fix linting issues, run:
+
+```bash
+npm run lint:fix
+```
+
+### IDE Integration
+
+ESLint is integrated with the IDE, so warnings and errors are underlined in real-time during coding. This eliminates the need to manually run ESLint to check for issues, making the development process more efficient.
+
+## 🧩 Git Hooks in the Testing Process
+
+Git hooks are used to ensure code quality and prevent errors from being committed to the repository. This project uses `Husky` to manage Git hooks, and the following hook is configured:
+
+- **Pre-commit Hook**: Runs ESLint and Prettier to check and format code before committing.
+
+### Setting Up Git Hooks
+
+Git hooks are automatically set up when you run `npm install`. If you need to manually set them up, run:
+
+```bash
+npx husky install
+```
+
+### Skipping Git Hooks
+
+If you need to bypass Git hooks for any reason, you can use the `--no-verify` flag:
+
+```bash
+git commit -m "Your commit message" --no-verify
+```
 
 ## 🔄 Running the Tests
 
