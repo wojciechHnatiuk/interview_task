@@ -2,7 +2,7 @@
   "name": "interview_cy",
   "version": "1.0.0",
   "scripts": {
-    "cy:open": "cypress open",
+    "cy:open": "cypress open --e2e --browser chrome",
     "cy:run": "cypress run",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
