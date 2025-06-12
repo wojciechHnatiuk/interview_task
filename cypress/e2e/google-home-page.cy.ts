@@ -30,6 +30,7 @@ describe('Google Home Page Tests', () => {
 				GoogleHomePage.assertCookieMondalContentsAreVisible(language)
 				GoogleHomePage.acceptCookiesIfPresent(language)
 				GoogleHomePage.assertCookieMondalContentsAreNotVisible(language)
+
 				GoogleHomePage.assertInitialLoadExpectedElements(language)
 			})
 		})

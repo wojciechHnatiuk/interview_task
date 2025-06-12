@@ -82,7 +82,17 @@ class GoogleHomePage extends BasePage {
 	 */
 
 	visit(language?: AppLanguage): this {
-		cy.visit(this.getBaseUrl(language))
+		cy.visit(this.getBaseUrl(language), {
+			onBeforeLoad(win) {
+				if ('navigator' in win && typeof win.navigator === 'object') {
+					Object.defineProperty(win.navigator, 'userAgent', {
+						value:
+							'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_6_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+						configurable: true,
+					})
+				}
+			},
+		})
 
 		return this
 	}
@@ -92,19 +102,25 @@ class GoogleHomePage extends BasePage {
 	 * @returns Returns the page object for chaining
 	 */
 	acceptCookiesIfPresent(language?: Language): this {
-		const cookieModalTranslaitons = getTranslation(
+		const cookieModalTranslations = getTranslation(
 			language,
 			(t) => t.cookiesModal
 		)
-		cy.get('body').then(() => {
-			cy.get('button')
-				.contains(cookieModalTranslaitons.acceptAll)
-				.then(($btn) => {
-					if ($btn.is(':visible')) {
-						cy.wrap($btn).click({ force: true })
-					}
-				})
+
+		cy.get('body').then(($body) => {
+			const acceptText = cookieModalTranslations.acceptAll
+
+			const $buttons = $body.find('button')
+			const $acceptBtn: JQuery<HTMLButtonElement> = $buttons.filter(
+				(_: number, btn: HTMLButtonElement) =>
+					btn.textContent?.trim() === acceptText
+			)
+
+			if ($acceptBtn.length && $acceptBtn.is(':visible')) {
+				cy.wrap($acceptBtn).click({ force: true })
+			}
 		})
+
 		return this
 	}
 
