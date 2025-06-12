@@ -2,6 +2,7 @@ import { splitIntoParts } from 'cypress/support/functions/customArrayMethods'
 import { getTranslation } from 'cypress/support/functions/dataGetters'
 import { AppLanguage, Language } from 'cypress/support/types'
 import { appTranslations } from 'translations/appTranslations'
+
 import { BasePage } from './BasePage'
 
 /**

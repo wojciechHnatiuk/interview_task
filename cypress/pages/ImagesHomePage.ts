@@ -1,5 +1,6 @@
 import { getTranslation } from 'cypress/support/functions/dataGetters'
 import { AppLanguage, Language } from 'cypress/support/types'
+
 import { BasePage } from './BasePage'
 
 /**

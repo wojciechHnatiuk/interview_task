@@ -1,5 +1,5 @@
-import { AppLanguage, languageCodeMap } from 'cypress/support/types'
 import { DEFAULT_LANGUAGE } from 'cypress/support/requirements/requirementVars'
+import { AppLanguage, languageCodeMap } from 'cypress/support/types'
 
 /**
  * @remarks

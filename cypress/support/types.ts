@@ -1,5 +1,5 @@
 import { appTranslations } from 'translations/appTranslations'
-import { DEFAULT_LANGUAGE } from './requirements/requirementVars'
+
 
 export type Language = keyof typeof appTranslations
 export type Translations = typeof appTranslations.english
