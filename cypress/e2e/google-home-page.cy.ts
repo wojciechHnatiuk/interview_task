@@ -28,10 +28,9 @@ describe('Google Home Page Tests', () => {
 				cy.cleanStateReload()
 
 				GoogleHomePage.assertCookieMondalContentsAreVisible(language)
-				GoogleHomePage.acceptCookiesIfPresent(language)
-				GoogleHomePage.assertCookieMondalContentsAreNotVisible(language)
-
-				GoogleHomePage.assertInitialLoadExpectedElements(language)
+					.acceptCookiesIfPresent(language)
+					.assertCookieMondalContentsAreNotVisible(language)
+					.assertInitialLoadExpectedElements(language)
 			})
 		})
 	})
@@ -50,8 +49,7 @@ describe('Google Home Page Tests', () => {
 	})
 
 	it('should toggle the Google Apps menu and verify that it is displayed along with all of its elements, then toggle it off and confirm that it is no longer visible', () => {
-		GoogleHomePage.openGoogleAppsMenu()
-		GoogleHomePage.assertGoogleAppsMenuIsVisible()
+		GoogleHomePage.openGoogleAppsMenu().assertGoogleAppsMenuIsVisible()
 
 		// close the menu by clicking outside of it
 		cy.wait(200).get('body').click(50, 50)

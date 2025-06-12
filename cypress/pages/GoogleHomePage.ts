@@ -170,6 +170,7 @@ class GoogleHomePage extends BasePage {
 			.map(([, value]) => value)
 
 		cy.isNotVisibleContentMultiple(cookiesModalContents)
+		return this
 	}
 
 	/**
