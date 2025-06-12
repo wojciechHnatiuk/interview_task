@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chrome, firefox, edge]
+        browser: [chrome, firefox, electron]
 
     steps:
       - name: Checkout
@@ -23,6 +23,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+
+      - name: Install browsers
+        run: |
+          echo "Installing required browsers for testing..."
+          if [[ "${{ matrix.browser }}" == "firefox" ]]; then
+            # Check if Firefox is already installed
+            if ! brew list --cask firefox &>/dev/null; then
+              echo "Firefox not found. Installing..."
+              brew install --cask firefox
+            else
+              echo "Firefox is already installed. Skipping installation."
+            fi
+          elif [[ "${{ matrix.browser }}" == "chrome" ]]; then
+            # Check if Chrome is already installed
+            if ! brew list --cask google-chrome &>/dev/null; then
+              echo "Chrome not found. Installing..."
+              brew install --cask google-chrome
+            else
+              echo "Chrome is already installed. Skipping installation."
+            fi
+          fi
+          # Electron browser comes bundled with Cypress
 
       - name: Cache node_modules
         uses: actions/cache@v3

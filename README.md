@@ -187,26 +187,51 @@ The project includes a GitHub Actions workflow for continuous integration that:
 
 - Automatically runs tests on pushes to main/master branches and pull requests
 - Supports manual triggering via workflow_dispatch
-- **Runs tests across multiple browsers (Chrome, Firefox, Edge)** using a matrix strategy
+- **Runs tests across multiple browsers (Chrome, Firefox, Electron)** using a matrix strategy
 - Uses efficient caching strategies to optimize build times
+- Automatically installs required browsers on the self-hosted runner
 
 ```yaml
 # Cross-browser testing with GitHub Actions matrix
 strategy:
   fail-fast: false
   matrix:
-    browser: [chrome, firefox, edge]
+    browser: [chrome, firefox, electron]
 
 steps:
-  # ...existing code...
-  - name: Cypress run
-    uses: cypress-io/github-action@v6
-    with:
-      browser: ${{ matrix.browser }}
-      headed: true
-      config: >-
-        screenshotOnRunFailure=true
+  # Smart browser installation that checks before installing
+  - name: Install browsers
+    run: |
+      echo "Installing required browsers for testing..."
+      if [[ "${{ matrix.browser }}" == "firefox" ]]; then
+        # Check if Firefox is already installed
+        if ! brew list --cask firefox &>/dev/null; then
+          echo "Firefox not found. Installing..."
+          brew install --cask firefox
+        else
+          echo "Firefox is already installed. Skipping installation."
+        fi
+      elif [[ "${{ matrix.browser }}" == "chrome" ]]; then
+        # Check if Chrome is already installed
+        if ! brew list --cask google-chrome &>/dev/null; then
+          echo "Chrome not found. Installing..."
+          brew install --cask google-chrome
+        else
+          echo "Chrome is already installed. Skipping installation."
+        fi
+      fi
+      # Electron browser comes bundled with Cypress
 ```
+
+With a single self-hosted runner, the matrix strategy:
+
+- Creates separate jobs for each browser configuration
+- Executes these jobs sequentially (one after another)
+- Installs browsers just-in-time when needed for that specific job
+- Provides clean test runs with dedicated artifacts for each browser
+- Ensures tests don't compete for system resources
+
+This approach provides organized cross-browser testing while working within the constraints of limited CI resources.
 
 The workflow is optimized to:
 
@@ -268,8 +293,8 @@ Tests run on:
 
 - **Browsers**:
   - Chrome
-  - Firefox
-  - Edge
+  - Firefox (installed on-demand by CI)
+  - Electron (bundled with Cypress)
 - **Viewports**:
   - Desktop (1920×1080)
   - Tablet (768×1024)
