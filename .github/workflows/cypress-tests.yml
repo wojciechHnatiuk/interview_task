@@ -10,6 +10,8 @@ on:
 jobs:
   cypress-run:
     runs-on: [self-hosted, macOS, ARM64]
+    env:
+      CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
     strategy:
       fail-fast: false
       matrix:
@@ -28,23 +30,20 @@ jobs:
         run: |
           echo "Installing required browsers for testing..."
           if [[ "${{ matrix.browser }}" == "firefox" ]]; then
-            # Check if Firefox is already installed
             if ! brew list --cask firefox &>/dev/null; then
               echo "Firefox not found. Installing..."
               brew install --cask firefox
             else
-              echo "Firefox is already installed. Skipping installation."
+              echo "Firefox is already installed."
             fi
           elif [[ "${{ matrix.browser }}" == "chrome" ]]; then
-            # Check if Chrome is already installed
             if ! brew list --cask google-chrome &>/dev/null; then
               echo "Chrome not found. Installing..."
               brew install --cask google-chrome
             else
-              echo "Chrome is already installed. Skipping installation."
+              echo "Chrome is already installed."
             fi
           fi
-          # Electron browser comes bundled with Cypress
 
       - name: Cache node_modules
         uses: actions/cache@v3
@@ -70,8 +69,7 @@ jobs:
         with:
           browser: ${{ matrix.browser }}
           headed: true
-          config: >-
-            screenshotOnRunFailure=true
+          config: screenshotOnRunFailure=true
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
