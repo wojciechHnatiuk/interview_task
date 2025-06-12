@@ -187,25 +187,25 @@ The project includes a GitHub Actions workflow for continuous integration that:
 
 - Automatically runs tests on pushes to main/master branches and pull requests
 - Supports manual triggering via workflow_dispatch
+- **Runs tests across multiple browsers (Chrome, Firefox, Edge)** using a matrix strategy
 - Uses efficient caching strategies to optimize build times
 
 ```yaml
-# Advanced caching strategy for dependencies
-- name: Cache node_modules
-  uses: actions/cache@v3
-  with:
-    path: ~/.npm
-    key: macOS-node-${{ hashFiles('package-lock.json') }}
-    restore-keys: |
-      macOS-node-
+# Cross-browser testing with GitHub Actions matrix
+strategy:
+  fail-fast: false
+  matrix:
+    browser: [chrome, firefox, edge]
 
-- name: Cache Cypress binary
-  uses: actions/cache@v3
-  with:
-    path: ~/.cache/Cypress
-    key: macOS-cypress-${{ hashFiles('package-lock.json') }}
-    restore-keys: |
-      macOS-cypress-
+steps:
+  # ...existing code...
+  - name: Cypress run
+    uses: cypress-io/github-action@v6
+    with:
+      browser: ${{ matrix.browser }}
+      headed: true
+      config: >-
+        screenshotOnRunFailure=true
 ```
 
 The workflow is optimized to:
@@ -266,7 +266,10 @@ npm run cy:run
 
 Tests run on:
 
-- **Browsers**: Chrome (can be extended to Firefox, Edge, etc.)
+- **Browsers**:
+  - Chrome
+  - Firefox
+  - Edge
 - **Viewports**:
   - Desktop (1920×1080)
   - Tablet (768×1024)
