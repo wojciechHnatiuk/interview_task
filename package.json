@@ -1,0 +1,16 @@
+{
+	"name": "interview_cy",
+	"version": "1.0.0",
+	"scripts": {
+		"cy:open": "cypress open",
+		"cy:run": "cypress run"
+	},
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"@types/cypress": "^0.1.6",
+		"cypress": "^14.4.1",
+		"typescript": "^5.8.3"
+	}
+}
