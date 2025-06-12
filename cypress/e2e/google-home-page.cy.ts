@@ -1,6 +1,7 @@
 import GmailHomePage from '@pages/GmailHomePage'
 import GoogleHomePage from '@pages/GoogleHomePage'
 import ImagesHomePage from '@pages/ImagesHomePage'
+import RecaptchaPage from '@pages/RecaptchaPage'
 import { VIEWPORTS } from 'cypress/support/requirements/requirementVars'
 import { appTranslations } from 'translations/appTranslations'
 
@@ -31,14 +32,21 @@ describe('Google Home Page Tests', () => {
           .assertInitialLoadExpectedElements(language)
       })
     })
-  })
 
-  it('should check images navigation link and assert elements visibility', () => {
-    cy.googleImagesHomeInterceptors()
+    it(`should test if the suggestions are displayed when the user types in the search input (${language})`, () => {
+      GoogleHomePage.visit(language)
+      GoogleHomePage.getSearchInput(language).type('test search')
+      GoogleHomePage.assertAutoCompleteSuggestionsAreVisible(
+        ['test search', 'test search 2'],
+        language
+      )
+    })
 
-    GoogleHomePage.openImages()
-    cy.wait('@loadFinishedRequest')
-    ImagesHomePage.assertImagesNavigation()
+    it(`should try to search and assert that ${language} recaptcha bot prevention is triggered when the user is suspected of being a bot`, () => {
+      GoogleHomePage.visit(language)
+      GoogleHomePage.getSearchInput(language).type('test search{enter}')
+      RecaptchaPage.assertRecaptchaIsVisible(language)
+    })
   })
 
   // Skip this test for Firefox due to cross origin issues with the Gmail link
@@ -58,4 +66,12 @@ describe('Google Home Page Tests', () => {
       GoogleHomePage.getGoogleAppsMenu().should('not.be.visible')
     })
   }
+
+  it('should check images navigation link and assert elements visibility', () => {
+    cy.googleImagesHomeInterceptors()
+
+    GoogleHomePage.openImages()
+    cy.wait('@loadFinishedRequest')
+    ImagesHomePage.assertImagesNavigation()
+  })
 })

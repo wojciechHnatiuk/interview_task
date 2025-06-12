@@ -21,6 +21,8 @@ class GoogleHomePage extends BasePage {
       feelingLuckyButton: `[aria-label="${t.feelingLuckyButtonAriaLabel}"]`,
       googleAppsToggle: `[aria-label="${t.googleAppsToggleAriaLabel}"]`,
       googleAppsContainer: `iframe[name="app"]`,
+      autoCompleteList: 'ul[role="listbox"]',
+      autoCompleteItem: 'li[data-attrid="AutocompletePrediction"]',
     }
   }
 
@@ -64,6 +66,26 @@ class GoogleHomePage extends BasePage {
    */
   getGoogleAppsMenu(language?: Language): Cypress.Chainable {
     return cy.get(this.getSelectors(language).googleAppsContainer)
+  }
+
+  /**
+   * Retrieves the auto-complete suggestion list element from the Google Home Page.
+   *
+   * @param language - (Optional) The language to use for selecting the appropriate auto-complete list selector.
+   * @returns A Cypress.Chainable object representing the auto-complete list element.
+   */
+  getAutoCompleteList(language?: Language): Cypress.Chainable {
+    return cy.get(this.getSelectors(language).autoCompleteList)
+  }
+
+  /**
+   * Retrieves the auto-complete item element from the Google Home Page.
+   *
+   * @param language - (Optional) The language to use for selecting the appropriate auto-complete item selector.
+   * @returns A Cypress.Chainable object representing the auto-complete item element.
+   */
+  getAutoCompleteItem(language?: Language): Cypress.Chainable {
+    return cy.get(this.getSelectors(language).autoCompleteItem)
   }
 
   /**
@@ -278,6 +300,39 @@ class GoogleHomePage extends BasePage {
   openImages(language?: Language): this {
     const homePageTranslations = getTranslation(language, t => t.homePage)
     cy.contains(homePageTranslations.images).click()
+    return this
+  }
+
+  /**
+   * Asserts that the autocomplete suggestions are visible and match the expected strings.
+   *
+   * This method performs the following checks:
+   * - Ensures the autocomplete list is visible.
+   * - Verifies the list contains exactly 10 child elements.
+   * - Checks that there are 13 autocomplete items (including shadow DOM elements).
+   * - Confirms that each autocomplete item contains the expected text, using translations if a language is provided.
+   *
+   * @param expectedAutoCompleteStrings - An array of strings expected to appear in the autocomplete suggestions.
+   * @param language - (Optional) The language to use for translations when verifying the autocomplete report.
+   * @returns The current page object instance for method chaining.
+   */
+  assertAutoCompleteSuggestionsAreVisible(
+    expectedAutoCompleteStrings: string[],
+    language?: Language
+  ): this {
+    const homepageTranslations = getTranslation(language, t => t.homePage)
+
+    this.getAutoCompleteList().should('be.visible')
+    this.getAutoCompleteList().children().should('have.length', 10)
+    //this one includes the shadow dom elements
+    this.getAutoCompleteItem().should('have.length', 13)
+
+    cy.isVisibleContent(homepageTranslations.autocompleteReport).then(() => {
+      expectedAutoCompleteStrings.forEach((expectedString, index) => {
+        this.getAutoCompleteItem().eq(index).should('contain.text', expectedString)
+      })
+    })
+
     return this
   }
 }
