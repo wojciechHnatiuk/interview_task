@@ -1,18 +1,18 @@
 {
-	"compilerOptions": {
-		"target": "es5",
-		"lib": ["es5", "dom"],
-		"types": ["cypress", "node"],
-		"strict": true,
-		"noEmit": true,
-		"baseUrl": "./",
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"resolveJsonModule": true,
-		"paths": {
-			"@pages/*": ["cypress/pages/*"],
-			"@fixtures/*": ["cypress/fixtures/*"]
-		}
-	},
-	"include": ["**/*.ts"]
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "node", "jquery"],
+    "strict": true,
+    "noEmit": true,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@pages/*": ["cypress/pages/*"],
+      "@fixtures/*": ["cypress/fixtures/*"]
+    }
+  },
+  "include": ["**/*.ts"]
 }
