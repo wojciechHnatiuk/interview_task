@@ -43,10 +43,13 @@ describe('Google Home Page Tests', () => {
 		ImagesHomePage.assertImagesNavigation()
 	})
 
-	it('should check gmail navigation link and assert elements visibility', () => {
-		GoogleHomePage.openGmail()
-		GmailHomePage.assertGmailNavigation()
-	})
+	// Skip this test for Firefox due to cross origin issues with the Gmail link
+	if (Cypress.browser.name !== 'firefox') {
+		it('should check gmail navigation link and assert elements visibility', () => {
+			GoogleHomePage.openGmail()
+			GmailHomePage.assertGmailNavigation()
+		})
+	}
 
 	it('should toggle the Google Apps menu and verify that it is displayed along with all of its elements, then toggle it off and confirm that it is no longer visible', () => {
 		GoogleHomePage.openGoogleAppsMenu().assertGoogleAppsMenuIsVisible()
