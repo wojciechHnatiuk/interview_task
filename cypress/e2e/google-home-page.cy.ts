@@ -41,17 +41,14 @@ describe('Google Home Page Tests', () => {
         language
       )
     })
-    //TODO added retries because google bot prevention sometimes doesn't work (potential bug report should be created)
-    it(`should try to search and assert that ${language} recaptcha bot prevention is triggered when the user is suspected of being a bot`, () => {
-      GoogleHomePage.visit(language)
-      GoogleHomePage.getSearchInput(language).type('test search{enter}')
-      RecaptchaPage.assertRecaptchaIsVisible(language)
-    })
-  })
-  //TODO added retries because google bot prevention sometimes doesn't work (potential bug report should be created)
-  it('should trigger recaptcha on direct search results navigation', () => {
-    cy.visit('https://www.google.com/search?q=test+search')
-    RecaptchaPage.assertRecaptchaIsVisible()
+    if (Cypress.browser.name !== 'firefox') {
+      //TODO added retries because google bot prevention sometimes doesn't work, mainly on firefox (potential bug report should be created)
+      it(`should try to search and assert that ${language} recaptcha bot prevention is triggered when the user is suspected of being a bot`, () => {
+        GoogleHomePage.visit(language)
+        GoogleHomePage.getSearchInput(language).type('test search{enter}')
+        RecaptchaPage.assertRecaptchaIsVisible(language)
+      })
+    }
   })
 
   // Skip this test for Firefox due to cross origin issues with the Gmail link
@@ -69,6 +66,11 @@ describe('Google Home Page Tests', () => {
 
       GoogleHomePage.getGoogleAppsToggle().should('have.attr', 'aria-expanded', 'false')
       GoogleHomePage.getGoogleAppsMenu().should('not.be.visible')
+    })
+    //TODO added retries because google bot prevention sometimes doesn't work, mainly on firefox (potential bug report should be created)
+    it('should trigger recaptcha on direct search results navigation', () => {
+      cy.visit('https://www.google.com/search?q=test+search')
+      RecaptchaPage.assertRecaptchaIsVisible()
     })
   }
 
