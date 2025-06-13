@@ -409,9 +409,9 @@ To document bugs effectively, the following template should be used:
   - On the Firefox browser, Recaptcha is triggered less frequently than on Chrome.
 
 - **Attachments**:
-  - Screenshots of the search results page.
-  - Network logs showing the absence of Recaptcha requests.
-  - Video recording of the test execution.
+  - CI test runs which found the issue: https://github.com/wojciechHnatiuk/interview_task/actions/runs/15632941944 && https://github.com/wojciechHnatiuk/interview_task/actions/runs/15632644413
+  - Screenshots of the search results page. (available in the test run artifacts)
+  - Video recording of the test execution. (available in the test run artifacts)
 
 This template ensures that bugs are reported consistently and with sufficient detail for debugging and resolution.
 
