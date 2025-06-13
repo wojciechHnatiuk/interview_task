@@ -42,18 +42,14 @@ describe('Google Home Page Tests', () => {
       )
     })
     //TODO added retries because google bot prevention sometimes doesn't work (potential bug report should be created)
-    it(
-      `should try to search and assert that ${language} recaptcha bot prevention is triggered when the user is suspected of being a bot`,
-      { retries: 1 },
-      () => {
-        GoogleHomePage.visit(language)
-        GoogleHomePage.getSearchInput(language).type('test search{enter}')
-        RecaptchaPage.assertRecaptchaIsVisible(language)
-      }
-    )
+    it(`should try to search and assert that ${language} recaptcha bot prevention is triggered when the user is suspected of being a bot`, () => {
+      GoogleHomePage.visit(language)
+      GoogleHomePage.getSearchInput(language).type('test search{enter}')
+      RecaptchaPage.assertRecaptchaIsVisible(language)
+    })
   })
   //TODO added retries because google bot prevention sometimes doesn't work (potential bug report should be created)
-  it('should trigger recaptcha on direct search results navigation', { retries: 1 }, () => {
+  it('should trigger recaptcha on direct search results navigation', () => {
     cy.visit('https://www.google.com/search?q=test+search')
     RecaptchaPage.assertRecaptchaIsVisible()
   })

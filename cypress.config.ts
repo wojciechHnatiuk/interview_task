@@ -20,5 +20,6 @@ export default defineConfig({
     trashAssetsBeforeRuns: true,
     pageLoadTimeout: 5000,
     experimentalMemoryManagement: true,
+    retries: 1,
   },
 })
