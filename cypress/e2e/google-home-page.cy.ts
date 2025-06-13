@@ -49,6 +49,11 @@ describe('Google Home Page Tests', () => {
     })
   })
 
+  it('should trigger recaptcha on direct search results navigation', () => {
+    cy.visit('https://www.google.com/search?q=test+search')
+    RecaptchaPage.assertRecaptchaIsVisible()
+  })
+
   // Skip this test for Firefox due to cross origin issues with the Gmail link
   if (Cypress.browser.name !== 'firefox') {
     it('should check gmail navigation link and assert elements visibility', () => {

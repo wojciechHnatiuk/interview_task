@@ -85,8 +85,8 @@ declare namespace Cypress {
 
     // UTILITIES
     /**
-     * Retrieves the country code based on the current IP address.
-     * @returns {Cypress.Chainable<string>} Chainable containing the country code as a string.
+     * Retrieves the country  based on the current IP address.
+     * @returns {Cypress.Chainable<string>} Chainable containing the country as a string.
      */
     getCountryFromCurrentIp(): Cypress.Chainable<string>
 
