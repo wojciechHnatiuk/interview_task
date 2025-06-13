@@ -273,8 +273,8 @@ In the Cypress configuration or test setup, timeouts are reduced:
 ```javascript
 Cypress.config({
   defaultCommandTimeout: 2000, // 2 seconds for commands like `.should()`
-  pageLoadTimeout: 5000,      // 5 seconds for page loads
-});
+  pageLoadTimeout: 5000, // 5 seconds for page loads
+})
 ```
 
 This configuration ensures that the tests not only validate functionality but also provide insights into the application's responsiveness.
@@ -370,6 +370,51 @@ Tests run on:
 - Add API testing for backend services
 - Implement data-driven test scenarios
 
+### Potential Bug Found
+
+During testing Google's bot prevention mechanism, a potential issue was identified:
+
+- **Bug Description**: The Recaptcha bot prevention is not triggered in scenarios where it should be, allowing potentially suspicious activity to proceed without verification.
+
+### Bug Report Template
+
+To document bugs effectively, the following template should be used:
+
+#### Bug Report
+
+- **Environment**:
+
+  - Browsers: Chrome 137.0.7151.104 (Official Build) (arm64) && Firefox 139.0.4 (aarch64)
+  - OS: macOS Sequoia 15.5
+  - Test Framework: Cypress 14.4.1
+
+- **Preconditions**:
+
+  - User is on the Google homepage.
+  - Cookies and local storage are cleared.
+  - Automated testing tool (Cypress) is used for executing this test case
+
+- **Steps to Reproduce**:
+
+  1. Navigate to the Google homepage.
+  2. Perform a series of rapid search queries or other actions that should trigger bot detection.
+
+- **Expected Result**:
+
+  - The Recaptcha bot prevention page is displayed to verify the user's authenticity.
+
+- **Actual Result**:
+
+  - The Recaptcha bot prevention is not triggered, and the user is allowed to proceed without verification.
+  - On the Firefox browser, Recaptcha is triggered less frequently than on Chrome.
+
+- **Attachments**:
+  - Screenshots of the search results page.
+  - Network logs showing the absence of Recaptcha requests.
+  - Video recording of the test execution.
+
+This template ensures that bugs are reported consistently and with sufficient detail for debugging and resolution.
+
 ### Why I would suggest switching to Playwright?
 
 Playwright offers several advantages over Cypress, making it a compelling choice for end-to-end and component testing:
@@ -391,43 +436,3 @@ Playwright offers several advantages over Cypress, making it a compelling choice
 This project is part of a job interview task and is provided as a demonstration of testing skills.
 
 ---
-
-### Potential Bug Found
-
-During testing Google's bot prevention mechanism, a potential issue was identified:
-
-- **Bug Description**: The Recaptcha bot prevention is not triggered in scenarios where it should be, allowing potentially suspicious activity to proceed without verification.
-
-### Bug Report Template
-
-To document bugs effectively, the following template should be used:
-
-#### Bug Report
-
-- **Environment**: 
-  - Browsers: Chrome 137.0.7151.104 (Official Build) (arm64) && Firefox 139.0.4 (aarch64)
-  - OS: macOS Sequoia 15.5
-  - Test Framework: Cypress 14.4.1
-
-- **Preconditions**:
-  - User is on the Google homepage.
-  - Cookies and local storage are cleared.
-  - Automated testing tool (Cypress) is used for executing this test case
-
-- **Steps to Reproduce**:
-  1. Navigate to the Google homepage.
-  2. Perform a series of rapid search queries or other actions that should trigger bot detection.
-
-- **Expected Result**:
-  - The Recaptcha bot prevention page is displayed to verify the user's authenticity.
-
-- **Actual Result**:
-  - The Recaptcha bot prevention is not triggered, and the user is allowed to proceed without verification.
-  - On the Firefox browser, Recaptcha is triggered less frequently than on Chrome.
-
-- **Attachments**:
-  - Screenshots of the search results page.
-  - Network logs showing the absence of Recaptcha requests.
-  - Video recording of the test execution.
-
-This template ensures that bugs are reported consistently and with sufficient detail for debugging and resolution.
