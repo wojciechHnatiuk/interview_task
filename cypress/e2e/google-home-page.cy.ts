@@ -72,6 +72,11 @@ describe('Google Home Page Tests', () => {
       cy.visit('https://www.google.com/search?q=test+search')
       RecaptchaPage.assertRecaptchaIsVisible()
     })
+    it('should assert that the im feeling lucky button redirects to gogogle doodles when the search input is empty', () => {
+      GoogleHomePage.getSearchInput().should('have.value', '')
+      GoogleHomePage.getFeelingLuckyButton().eq(1).click()
+      cy.url().should('eq', 'https://doodles.google/')
+    })
   }
 
   it('should check images navigation link and assert elements visibility', () => {
@@ -80,5 +85,13 @@ describe('Google Home Page Tests', () => {
     GoogleHomePage.openImages()
     cy.wait('@loadFinishedRequest')
     ImagesHomePage.assertImagesNavigation()
+  })
+
+  it('search submit should not redirect when search input is empty', () => {
+    cy.url().then(url => {
+      GoogleHomePage.getSearchInput().should('have.value', '')
+      GoogleHomePage.getSearchButton().eq(1).click()
+      cy.url().should('eq', url)
+    })
   })
 })
