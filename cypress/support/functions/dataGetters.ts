@@ -2,10 +2,7 @@ import { appTranslations } from 'translations/appTranslations'
 
 import { Language, Translations } from '../types'
 
-export function getTranslation<T>(
-  language: Language | undefined,
-  getter: (t: Translations) => T
-): T {
+export function getTranslation(getter: (t: Translations) => string, language?: Language): string {
   const fallbackLang: Language = 'english'
 
   try {
